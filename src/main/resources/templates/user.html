@@ -1,11 +1,73 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/" lang="en">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8" />
+    <title>Users</title>
+    <style>
+        .tg{
+            border-collapse: collapse;
+            border-spacing: 0;
+            background-color: #ccc;
+        }
+        .tg td{
+            font-family: Arial,sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            padding: 10px 5px;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+            word-break: normal;
+            border-color: #ccc;
+            color: #333;
+            background-color: #f0f0f0;
+        }
+        .tg th{
+            font-family: Arial,sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            padding: 10px 5px;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+            word-break: normal;
+            border-color: #ccc;
+            color: #333;
+            background-color: #f0f0f0;
+        }
+        .button {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-<h1>User, welcome spring boot security page!</h1>
-
-
+<h1>User Profile</h1>
+<table class="tg" th:object="${user}" th:if="${user != null}">
+    <tr>
+        <th>Id</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Job position</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Role</th>
+    </tr>
+    <tr>
+        <td th:utext="${user.id}"></td>
+        <td th:utext="${user.name}"></td>
+        <td th:utext="${user.lastName}"></td>
+        <td th:utext="${user.email}"></td>
+        <td th:utext="${user.jobPosition}"></td>
+        <td th:utext="${user.username}"></td>
+        <td th:utext="${user.password}"></td>
+        <td><span th:each="role,iterStat : ${user.getAuthorities}" th:text="${role} + (iterStat.last ? '' : ', ')"></span></td>
+    </tr>
+</table>
+<br>
+<br>
+<a class="button" href="#" th:if="${user != null}" th:href="@{/update/{id}(id=${user.id})}">Update User</a>
+<a class="button" href="#" th:if="${user == null}" th:href="@{/create}">Create User</a>
+<a class="button" href="#" th:href="@{/logout}">Log Out</a>
 </body>
 </html>
